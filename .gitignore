@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+venv/
+.venv/
+env/
+.env
+
+# Bases de Dados e arquivos grandes (comum em Data Eng)
+*.csv
+*.json
+*.parquet
+*.sqlite
+*.db
+*.log
+
+# Sistema e IDEs
+.DS_Store
+.vscode/
+.idea/
