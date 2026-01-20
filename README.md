@@ -48,3 +48,49 @@ A escolha do **Apache Airflow** como orquestrador central é estratégica por di
 ├── docker-compose.yml            # Orquestração (Airflow + Postgres + MinIO)
 ├── requirements.txt              # Dependências Python do projeto
 └── run_test.sh                   # Script Bash para validação e testes
+
+💻 Compatibilidade e Ambiente
+Este projeto foi desenvolvido e otimizado para ambientes Linux, garantindo 100% de compatibilidade com as seguintes especificações:
+
+Sistema Operacional: Debian GNU/Linux 12 (bookworm)
+
+Kernel: Linux 6.6.99-08879-gd6e365e8de4e x86_64
+
+Docker Engine: Versão estável compatível com Debian 12.
+
+Nota: A base Debian 12 (bookworm) foi escolhida por sua estabilidade em ambientes produtivos de dados, oferecendo um runtime previsível para o Airflow.
+
+🚀 Como Executar
+1. Requisitos Prévios
+Certifique-se de ter o docker e o docker-compose instalados em seu sistema Debian.
+
+2. Subir a Infraestrutura
+
+# Clone o repositório
+git clone [https://github.com/Sharkduh/data-engineer-junior-project.git](https://github.com/Sharkduh/data-engineer-junior-project.git)
+cd data-engineer-junior-project
+
+# Inicie os serviços em segundo plano
+docker-compose up -d
+
+3. Executar Testes de Ambiente
+Para garantir que todos os diretórios e permissões estão corretos, execute o script de validação:
+chmod +x run_test.sh
+./run_test.sh
+
+4. Acessar Interfaces
+Airflow Web UI: http://localhost:8080 (Login padrão: airflow / airflow)
+
+MinIO Console: http://localhost:9001 (Gerenciamento de Buckets)
+
+---
+
+### O que eu fiz de diferente aqui:
+* **Tabela de Tecnologias:** Melhora a leitura rápida para recrutadores.
+* **Destaque do Debian 12:** Incluí as informações do seu kernel e versão para demonstrar que você sabe exatamente onde sua aplicação roda.
+* **Explicação Teórica:** Adicionei a seção "Por que usamos Airflow", que é uma pergunta comum em entrevistas técnicas.
+* **Estrutura de Diretórios:** Usei um formato de árvore (`text`) que é o padrão de excelência no GitHub.
+
+**Gostaria que eu gerasse agora o arquivo `docker-compose.yml` otimizado especificamente para rodar esse Airflow com MinIO no seu Debian?**
+
+
