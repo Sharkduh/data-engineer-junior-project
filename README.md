@@ -32,23 +32,6 @@ A escolha do **Apache Airflow** como orquestrador central é estratégica por di
 
 ---
 
-## 📂 Estrutura do Projeto
-
-```text
-├── dags/
-│   └── ingestion_dag.py          # Definição lógica do pipeline no Airflow
-├── scripts/                      # Módulos Python de processamento
-│   ├── extract_data.py           # Ingestão de dados da fonte
-│   ├── refine_data.py            # Limpeza e normalização (Camada Silver)
-│   ├── transformation.py         # Regras de negócio (Camada Gold)
-│   ├── setup_minio.py            # Provisionamento automático de Buckets
-│   ├── check_datamart.py         # Validação de integridade dos dados
-│   └── upload_override.py        # Gestão de sobreposição de arquivos no storage
-├── Dockerfile                    # Blueprint da imagem personalizada
-├── docker-compose.yml            # Orquestração (Airflow + Postgres + MinIO)
-├── requirements.txt              # Dependências Python do projeto
-└── run_test.sh                   # Script Bash para validação e testes
-
 💻 Compatibilidade e Ambiente
 Este projeto foi desenvolvido e otimizado para ambientes Linux, garantindo 100% de compatibilidade com as seguintes especificações:
 
@@ -93,4 +76,24 @@ MinIO Console: http://localhost:9001 (Gerenciamento de Buckets)
 
 **Gostaria que eu gerasse agora o arquivo `docker-compose.yml` otimizado especificamente para rodar esse Airflow com MinIO no seu Debian?**
 
+
+
+
+
+## 📂 Estrutura do Projeto
+
+```text
+├── dags/
+│   └── ingestion_dag.py          # Definição lógica do pipeline no Airflow
+├── scripts/                      # Módulos Python de processamento
+│   ├── extract_data.py           # Ingestão de dados da fonte
+│   ├── refine_data.py            # Limpeza e normalização (Camada Silver)
+│   ├── transformation.py         # Regras de negócio (Camada Gold)
+│   ├── setup_minio.py            # Provisionamento automático de Buckets
+│   ├── check_datamart.py         # Validação de integridade dos dados
+│   └── upload_override.py        # Gestão de sobreposição de arquivos no storage
+├── Dockerfile                    # Blueprint da imagem personalizada
+├── docker-compose.yml            # Orquestração (Airflow + Postgres + MinIO)
+├── requirements.txt              # Dependências Python do projeto
+└── run_test.sh                   # Script Bash para validação e testes
 
