@@ -1,0 +1,119 @@
+version: '3.8'
+
+# Bloco comum de configuração para os serviços do Airflow (webserver, scheduler)
+x-airflow-common: &airflow-common
+  # MUDANÇA CRÍTICA: AGORA UTILIZA 'BUILD' para instalar o provider S3 e outras libs (pandas, minio)
+  image: ${AIRFLOW_IMAGE_NAME:-custom-airflow:2.7.2} # Novo nome de imagem
+  build:
+    context: .
+    dockerfile: Dockerfile
+    args:
+      AIRFLOW_BASE_IMAGE: apache/airflow:2.7.2
+
+  environment:
+    # Configurações Essenciais do Airflow
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    # Conexão do Airflow com o seu próprio banco de metadados (PostgreSQL)
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://airflow:airflow@postgres_db:5432/airflow
+    AIRFLOW__WEBSERVER__SECRET_KEY: seu_secret_key_aqui # MUDAR ESTA CHAVE!
+    
+    # Variáveis de Conexão com o Data Warehouse (PostgreSQL) - Usadas nas DAGs
+    POSTGRES_HOST: postgres_db
+    POSTGRES_DB: data_warehouse
+    POSTGRES_USER: de_user
+    POSTGRES_PASSWORD: sua_senha_dw # MUDAR ESTA SENHA!
+    
+    # Variáveis de Conexão com o Data Lake (MinIO - Protocolo S3) - Usadas nas DAGs
+    MINIO_HOST: minio
+    MINIO_ACCESS_KEY: minio_access_key
+    MINIO_SECRET_KEY: minio_secret_key
+    
+    # CRUCIAL: CRIA A CONEXÃO 'minio_s3_conn' DIRETAMENTE NO AIRFLOW
+    # Formato: s3://<ACCESS_KEY>:<SECRET_KEY>@<HOST>:<PORTA>?endpoint_url=http%3A%2F%2F<HOST>
+    AIRFLOW_CONN_MINIO_S3_CONN: 's3://minio_access_key:minio_secret_key@minio:9000?endpoint_url=http%3A%2F%2Fminio'
+    
+  restart: always # Tenta reiniciar em caso de falha
+
+services:
+  # 1. Serviço de Data Warehouse (PostgreSQL)
+  postgres_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow 
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  # 2. Serviço de Data Lake (MinIO - S3 Compatível)
+  minio:
+    image: minio/minio
+    environment:
+      MINIO_ACCESS_KEY: minio_access_key
+      MINIO_SECRET_KEY: minio_secret_key
+    ports:
+      - "9000:9000" # Porta da API S3
+      - "9001:9001" # Porta do Console Web
+    command: server /data --console-address :9001 # Garante que o console use a porta 9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - minio_data:/data
+    restart: always
+
+  # 3. Serviço do Webserver do Airflow (Interface Gráfica)
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    # VOLUMES CORRIGIDOS: AGORA INCLUI O DOCKER SOCKET PARA ACESSO PELO WEB UI
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./dbt:/opt/airflow/dbt
+      - /home/lion92185/data-engineer-junior-project/scripts:/opt/airflow/scripts:ro
+      - /var/run/docker.sock:/var/run/docker.sock # <--- CORREÇÃO CRÍTICA FINAL AQUI!
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  # 4. Serviço do Scheduler do Airflow (O coração da orquestração)
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    # VOLUMES: Inclui o docker.sock como já estava
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./dbt:/opt/airflow/dbt
+      - /home/lion92185/data-engineer-junior-project/scripts:/opt/airflow/scripts:ro
+      - /var/run/docker.sock:/var/run/docker.sock 
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+# Definição dos Volumes Persistentes
+volumes:
+  postgres_data:
+  minio_data:

@@ -1,0 +1,21 @@
+[2025-11-27T22:20:19.043+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ingestion_to_landing.transform_data_to_raw scheduled__2025-11-26T22:17:20.686580+00:00 [queued]>
+[2025-11-27T22:20:19.104+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ingestion_to_landing.transform_data_to_raw scheduled__2025-11-26T22:17:20.686580+00:00 [queued]>
+[2025-11-27T22:20:19.105+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2025-11-27T22:20:19.191+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): transform_data_to_raw> on 2025-11-26 22:17:20.686580+00:00
+[2025-11-27T22:20:19.211+0000] {standard_task_runner.py:57} INFO - Started process 193 to run task
+[2025-11-27T22:20:19.274+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'ingestion_to_landing', 'transform_data_to_raw', 'scheduled__2025-11-26T22:17:20.686580+00:00', '--job-id', '111', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_dag.py', '--cfg-path', '/tmp/tmp87maiuxc']
+[2025-11-27T22:20:19.315+0000] {standard_task_runner.py:85} INFO - Job 111: Subtask transform_data_to_raw
+[2025-11-27T22:20:19.726+0000] {logging_mixin.py:151} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:193 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-11-27T22:20:20.037+0000] {task_command.py:416} INFO - Running <TaskInstance: ingestion_to_landing.transform_data_to_raw scheduled__2025-11-26T22:17:20.686580+00:00 [running]> on host e39d39ea47f6
+[2025-11-27T22:20:20.731+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ingestion_to_landing' AIRFLOW_CTX_TASK_ID='transform_data_to_raw' AIRFLOW_CTX_EXECUTION_DATE='2025-11-26T22:17:20.686580+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-11-26T22:17:20.686580+00:00'
+[2025-11-27T22:20:21.648+0000] {docker.py:337} INFO - Starting docker container from image custom-***:2.7.2
+[2025-11-27T22:20:28.618+0000] {docker.py:406} INFO - The container is run as root user. For security, consider using a regular user account.
+[2025-11-27T22:21:10.044+0000] {docker.py:406} INFO - 
+[2025-11-27T22:21:29.522+0000] {docker.py:406} INFO - INFO:__main__:Iniciando conexão com MinIO.
+INFO:__main__:Lendo arquivo 'raw_products.json' do bucket 'landing'.
+INFO:__main__:Executando transformação: Adicionando timestamp e tratando tipos.
+INFO:__main__:Carregando arquivo transformado 'transformed_products.parquet' no bucket 'processing'.
+INFO:__main__:Sucesso! Arquivo 'transformed_products.parquet' carregado no bucket 'processing'.
+[2025-11-27T22:21:59.245+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=ingestion_to_landing, task_id=transform_data_to_raw, execution_date=20251126T221720, start_date=20251127T222019, end_date=20251127T222159
+[2025-11-27T22:21:59.708+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-11-27T22:21:59.929+0000] {taskinstance.py:2778} INFO - 1 downstream tasks scheduled from follow-on schedule check

@@ -1,0 +1,21 @@
+[2025-11-27T22:22:02.989+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: ingestion_to_landing.refine_data_to_curated scheduled__2025-11-26T22:17:20.686580+00:00 [queued]>
+[2025-11-27T22:22:03.021+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: ingestion_to_landing.refine_data_to_curated scheduled__2025-11-26T22:17:20.686580+00:00 [queued]>
+[2025-11-27T22:22:03.022+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 2
+[2025-11-27T22:22:03.082+0000] {taskinstance.py:1382} INFO - Executing <Task(DockerOperator): refine_data_to_curated> on 2025-11-26 22:17:20.686580+00:00
+[2025-11-27T22:22:03.114+0000] {standard_task_runner.py:57} INFO - Started process 212 to run task
+[2025-11-27T22:22:03.139+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'ingestion_to_landing', 'refine_data_to_curated', 'scheduled__2025-11-26T22:17:20.686580+00:00', '--job-id', '113', '--raw', '--subdir', 'DAGS_FOLDER/ingestion_dag.py', '--cfg-path', '/tmp/tmpkfqw86bx']
+[2025-11-27T22:22:03.168+0000] {standard_task_runner.py:85} INFO - Job 113: Subtask refine_data_to_curated
+[2025-11-27T22:22:03.495+0000] {logging_mixin.py:151} WARNING - /home/***/.local/lib/python3.8/site-packages/***/settings.py:193 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-11-27T22:22:03.735+0000] {task_command.py:416} INFO - Running <TaskInstance: ingestion_to_landing.refine_data_to_curated scheduled__2025-11-26T22:17:20.686580+00:00 [running]> on host e39d39ea47f6
+[2025-11-27T22:22:09.731+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='ingestion_to_landing' AIRFLOW_CTX_TASK_ID='refine_data_to_curated' AIRFLOW_CTX_EXECUTION_DATE='2025-11-26T22:17:20.686580+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-11-26T22:17:20.686580+00:00'
+[2025-11-27T22:22:10.426+0000] {docker.py:337} INFO - Starting docker container from image custom-***:2.7.2
+[2025-11-27T22:22:15.632+0000] {docker.py:406} INFO - The container is run as root user. For security, consider using a regular user account.
+[2025-11-27T22:22:45.809+0000] {docker.py:406} INFO - 
+[2025-11-27T22:23:05.526+0000] {docker.py:406} INFO - INFO:__main__:Iniciando conexão com MinIO.
+INFO:__main__:Lendo arquivo 'transformed_products.parquet' do bucket 'processing'.
+INFO:__main__:Executando modelagem: Seleção e refinamento de colunas.
+INFO:__main__:Carregando arquivo modelado 'dim_products.parquet' no bucket 'curated'.
+INFO:__main__:Sucesso! Arquivo 'dim_products.parquet' carregado no bucket 'curated'.
+[2025-11-27T22:23:29.435+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=ingestion_to_landing, task_id=refine_data_to_curated, execution_date=20251126T221720, start_date=20251127T222202, end_date=20251127T222329
+[2025-11-27T22:23:29.595+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-11-27T22:23:29.747+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check
