@@ -68,18 +68,6 @@ MinIO Console: http://localhost:9001 (Gerenciamento de Buckets)
 
 ---
 
-### O que eu fiz de diferente aqui:
-* **Tabela de Tecnologias:** Melhora a leitura rápida para recrutadores.
-* **Destaque do Debian 12:** Incluí as informações do seu kernel e versão para demonstrar que você sabe exatamente onde sua aplicação roda.
-* **Explicação Teórica:** Adicionei a seção "Por que usamos Airflow", que é uma pergunta comum em entrevistas técnicas.
-* **Estrutura de Diretórios:** Usei um formato de árvore (`text`) que é o padrão de excelência no GitHub.
-
-**Gostaria que eu gerasse agora o arquivo `docker-compose.yml` otimizado especificamente para rodar esse Airflow com MinIO no seu Debian?**
-
-
-
-
-
 ## 📂 Estrutura do Projeto
 
 ```text
